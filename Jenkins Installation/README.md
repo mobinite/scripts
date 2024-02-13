@@ -1,0 +1,1 @@
+Install jenkins in ubuntu server before running this command make sure your http port is enabled. 
