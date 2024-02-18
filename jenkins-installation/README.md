@@ -1,1 +1,1 @@
-Install jenkins in ubuntu server before running this command make sure your http port is enabled. 
+Install jenkins in ubuntu server before running this command make sure 8080 port is enabled. 

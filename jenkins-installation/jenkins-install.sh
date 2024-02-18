@@ -1,25 +1,33 @@
 #!/bin/bash
 
+# referece https://pkg.jenkins.io/
+
 # Update package index
-sudo apt update
+sudo apt-get update
 
-# Install Java
-sudo apt install -y default-jdk
 
-# Add Jenkins repository key
-wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+# Add Jenkins repository
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+    https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
 
-# Add Jenkins repository to sources list
-sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+# Add Jenkins apt repository
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+    https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+    /etc/apt/sources.list.d/jenkins.list > /dev/null
 
-# Update package index again
-sudo apt update && sudo apt upgrade
+# Update package again
+
+sudo apt-get update
+sudo apt-get install fontconfig openjdk-17-jre
 
 # Install Jenkins
-sudo apt install -y jenkins
+sudo apt-get install jenkins -y
 
 # Start Jenkins
 sudo systemctl start jenkins
+
+# Enable Jenkins
+sudo systemctl enable jenkins
 
 # Get initial admin password
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword > ~/jenkins_admin_password.txt
